@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nevara</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      text-align: center;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: black;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #msg {
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>not public yet.</h1>
+    <p>something is forming.</p>
+
+    <input type="email" id="email" placeholder="your email" />
+
+    <button onclick="submitEmail()">get early access</button>
+
+    <p id="msg"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script>
+    const supabaseUrl = "https://irmgeecjkewaadmiakwg.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlybWdlZWNqa2V3YWFkbWlha3dnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0ODI0NDEsImV4cCI6MjA5MzA1ODQ0MX0.o9_fU5y64u-DX7bJeP34DSMdeNx_4GW5iOnoeI8KDek";
+
+    const client = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function submitEmail() {
+      const email = document.getElementById("email").value;
+
+      if (!email) {
+        document.getElementById("msg").innerText = "enter email";
+        return;
+      }
+
+      const { error } = await client
+        .from("waitlist")
+        .insert([{ email: email }]);
+
+      if (error) {
+        document.getElementById("msg").innerText = "error – try again";
+        console.log(error);
+      } else {
+        document.getElementById("msg").innerText = "you're in ✨";
+      }
+    }
+  </script>
+</body>
+</html>
